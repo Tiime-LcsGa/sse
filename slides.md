@@ -122,12 +122,12 @@ layout: two-cols-header
 # L'implémentation <span style="color: var(--color-important)">Native</span>
 
 ::left::
-
-## [EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource)
+## [`new EventSource()`](https://developer.mozilla.org/en-US/docs/Web/API/EventSource)
 
 <br/>
 
-```ts {all|1|3,6|4,5|8|all}
+````md magic-move
+```ts {all|1|3-6|8|10-12}
 const source = new EventSource('/sse');
 
 source.onmessage = (event) => {
@@ -135,6 +135,44 @@ source.onmessage = (event) => {
   console.log(data);
 };
 
+source.onerror = (error) => subscriber.error(error);
+
+...
+
 source.close();
 ```
 
+```ts {all|1,15,17|2,14|3|5-8|10|13|all}
+function fromSse<T>(url: string) {
+  return new Observable<T>(subscriber => {
+    const source = new EventSource(url);
+
+    source.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      subscriber.next(data);
+    };
+
+    source.onerror = (error) => subscriber.error(error);
+      
+
+    return () => source.close();
+  });
+}
+
+fromSse('/sse').subscribe(console.log);
+```
+````
+
+::right::
+
+<br />
+<br />
+<br />
+
+<p v-click="13">
+  <CheckIcon style="display: inline-block; color: var(--color-tip)" /> Ultra simple à mettre en place et à l'usage.
+</p>
+
+<p v-click="14">
+  <TriangleAlertIcon style="display: inline-block; color: var(--color-warning)" /> Limites : Pas de headers personnalisés (Auth) via l'API native.
+</p>
