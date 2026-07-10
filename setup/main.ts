@@ -1,6 +1,11 @@
+import { BatteryWarning, CodeXml, Hourglass, Link, Network, Zap } from '@lucide/vue'
 import { defineAppSetup } from '@slidev/types'
-import { Network } from '@lucide/vue'
 
 export default defineAppSetup(({ app }) => {
-  app.component('Network', Network)
+  app.component('NetworkIcon', Network)
+  .component('HourglassIcon', Hourglass)
+  .component('BatteryWarningIcon', BatteryWarning)
+  .component('ZapIcon', Zap)
+  .component('LinkIcon', Link)
+  .component('CodeXmlIcon', CodeXml)
 })
