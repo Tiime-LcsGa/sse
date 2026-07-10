@@ -25,5 +25,10 @@
         block-size: 2.5rem;
         inline-size: 2.5rem;
     }
+
+    > :deep(ul) {
+        margin-block-start: 1rem;
+        text-align: start;
+    }
 }
 </style>

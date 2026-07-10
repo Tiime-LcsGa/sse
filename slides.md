@@ -57,7 +57,11 @@ image: assets/polling.png
     <Card>
       <HourglassIcon />
       <h3>Latence</h3>
-      <p>Si la data change à T+1s et que l'appel est à T+3s, on attend 2s pour rien.</p>
+      <ul>
+        <li>SI data à T+1s</li>
+        <li>ET appel à T+3s</li>
+        <li>2s d'attente pour rien</li>
+      </ul>
     </Card>
     <Card>
       <BatteryWarningIcon />
