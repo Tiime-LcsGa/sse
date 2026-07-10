@@ -18,5 +18,7 @@
   "editor.formatOnSaveMode": "file",
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "explicit"
-  }
+  },
+  "oxc.enable.oxfmt": false,
+  "oxc.enable.oxlint": false
 }

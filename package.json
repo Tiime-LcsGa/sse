@@ -8,6 +8,7 @@
     "export": "slidev export"
   },
   "dependencies": {
+    "@lucide/vue": "^1.23.0",
     "@slidev/cli": "^52.16.0",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",

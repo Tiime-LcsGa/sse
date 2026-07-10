@@ -216,6 +216,9 @@ importers:
 
   .:
     dependencies:
+      '@lucide/vue':
+        specifier: ^1.23.0
+        version: 1.23.0(vue@3.5.39(typescript@6.0.3))
       '@slidev/cli':
         specifier: ^52.16.0
         version: 52.16.0(@nuxt/kit@3.21.8)(@types/markdown-it@14.1.2)(@types/node@22.20.0)(@vue/compiler-sfc@3.5.39)(lightningcss@1.32.0)(markdown-it@14.3.0)(postcss@8.5.16)(rolldown@1.1.4)
@@ -486,6 +489,11 @@ packages:
 
   '@lillallol/outline-pdf@4.0.0':
     resolution: {integrity: sha512-tILGNyOdI3ukZfU19TNTDVoS0W1nSPlMxCKAm9FPV4OPL786Ur7e1CRLQZWKJP6uaMQsUqSDBCTzISs6lXWdAQ==}
+
+  '@lucide/vue@1.23.0':
+    resolution: {integrity: sha512-9SIYeY5K+R1iv8F8JUKMGSL7Pck/86BJ8djtZz/lnYsoHtKFUj1H2z6+PvKnC/8blZ8tqTDeDXAoTKobuX80hg==}
+    peerDependencies:
+      vue: '>=3.0.1'
 
   '@mdit-vue/plugin-component@3.0.2':
     resolution: {integrity: sha512-Fu53MajrZMOAjOIPGMTdTXgHLgGU9KwTqKtYc6WNYtFZNKw04euSfJ/zFg8eBY/2MlciVngkF7Gyc2IL7e8Bsw==}
@@ -4251,6 +4259,10 @@ snapshots:
     dependencies:
       '@lillallol/outline-pdf-data-structure': 1.0.3
       pdf-lib: 1.17.1
+
+  '@lucide/vue@1.23.0(vue@3.5.39(typescript@6.0.3))':
+    dependencies:
+      vue: 3.5.39(typescript@6.0.3)
 
   '@mdit-vue/plugin-component@3.0.2':
     dependencies:

@@ -11,40 +11,59 @@ title: Server-Sent Events (SSE)
 
 # Server-Sent Events (SSE)
 
-### Ne demandez plus, écoutez : le temps réel sans le fardeau du polling.
+Ne demandez plus, écoutez : le temps réel sans le fardeau du polling.
+
+---
+layout: center
+---
+
+## L'objectif final du polling et du SSE : La mise à jour instantannée
+
+Recevoir l'information au moment précis où la donnée change
+
+---
+layout: two-cols-header
+---
+
+## Le polling <span style="color: var(--color-important)">Traditionnel</span>
+
+<br/>
+
+::left::
+### <span style="color: var(--color-important)">"Est-ce qu'on est arrivés ?"</span>
+
+<br/>
+
+<v-clicks>
+
+- Requête HTTP toutes les N secondes
+- Le serveur répond souvent : "pas de changement"
+  
+</v-clicks>
+
+::right::
+[image explicative du polling ]
 
 ---
 
-## Le polling vs les SSEs
+## Le polling est <span style="color: var(--color-important)">inefficae</span>
 
-Les deux solutions servent un même but : être notifié quand de la donnée change.
+<br/>
 
-### Le polling
+<CardList>
+  <Card>
+    <Network />
+    <h3>Surchage</h3>
+    <p>Trop d'appels réseau pour rien.</p>
+  </Card>
 
-Le polling est la technique la plus basique qui soit et elle consiste à interroger le serveur à intervalles réguliers afin de savoir si de nouvelles données sont disponibles.
+  <Card>
+    <h3>Latence</h3>
+    <p>Si la data change à T+1s et que l'appel est à T+3s, on attend 2s pour rien.</p>
+  </Card>
 
----
-
-### Les SSEs
-
-Les SSEs servent le même objectif mais cette fois on ouvre un flux de communication unidirectionnel entre le client et le serveur. Le serveur peut alors pousser des données vers le client dès que de nouvelles données sont disponibles.
-
-C'est un protocole basé sur le HTTP natif et qui est parfait pour les flux de données en temps réel
-
----
-
-#### Avantages des SSEs
-
-- plus économe en bande passante qu'un polling
-
-- utilisation du protocole HTTP, ce qui simplifie l'architecture
-
-- gestion automatique des reconnexions en cas de coupure réseau
-
----
-
-#### Inconvénients des SSEs
-
-- limitation du nombre de connexions simultanées
-
-- pas de bidirectionnalité
+  <Card>
+    <h3>Énergie</h3>
+    <p>Consomme des ressources côté client et serveur.</p>
+  </Card>
+</CardList>
