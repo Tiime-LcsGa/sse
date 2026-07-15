@@ -18,7 +18,6 @@ subtitle: Des requêtes à intervalle de temps régulier
 ---
 
 ---
-layout: diagram
 title: Le Polling
 ---
 
@@ -46,7 +45,6 @@ subtitle: 'Un abonnement unidirectionnel efficace'
 --- 
 
 ---
-layout: diagram
 title: Les SSE
 ---
 

@@ -1,5 +1,4 @@
 [role="group"] {
-  flex: 1;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
