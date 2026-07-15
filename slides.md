@@ -127,7 +127,7 @@ source.close();
 
 ---
 layout: code
-title: Surcouche réactive
+title: L'implémentation native - Surcouche réactive
 comark: true
 ---
 
@@ -140,7 +140,7 @@ const source = new EventSource('/sse');
 fromSse('/sse').subscribe(console.log);
 ```
 
-```ts {all|2-4 }
+```ts
 function fromSse<T>(url: string) {
   return new Observable<T>((subscriber) => {
     ...
@@ -150,7 +150,7 @@ function fromSse<T>(url: string) {
 fromSse('/sse').subscribe(console.log);
 ```
 
-```ts {all|3}
+```ts
 function fromSse<T>(url: string) {
   return new Observable<T>((subscriber) => {
     const source = new EventSource(url);
@@ -160,7 +160,7 @@ function fromSse<T>(url: string) {
 fromSse('/sse').subscribe(console.log);
 ```
 
-```ts {all|5-8}
+```ts
 function fromSse<T>(url: string) {
   return new Observable<T>((subscriber) => {
     const source = new EventSource(url);
@@ -175,7 +175,7 @@ function fromSse<T>(url: string) {
 fromSse('/sse').subscribe(console.log);
 ```
 
-```ts {all|10}
+```ts
 function fromSse<T>(url: string) {
   return new Observable<T>((subscriber) => {
     const source = new EventSource(url);
@@ -192,7 +192,7 @@ function fromSse<T>(url: string) {
 fromSse('/sse').subscribe(console.log);
 ```
 
-```ts {all|12|all}
+```ts
 function fromSse<T>(url: string) {
   return new Observable<T>((subscriber) => {
     const source = new EventSource(url);
