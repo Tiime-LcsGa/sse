@@ -210,3 +210,7 @@ fromSse('/sse').subscribe(console.log);
 ```
 ````
 
+---
+layout: section
+title: PHP - Mercure
+---

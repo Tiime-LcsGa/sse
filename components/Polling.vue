@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { onSlideEnter } from "@slidev/client";
 import { useDateFormat } from "@vueuse/core";
 import { useObservable } from "@vueuse/rxjs";
-import { scan, timer } from "rxjs";
+import { scan, Subject, switchMap, timer } from "rxjs";
 import { computed } from "vue";
 import Logs from "./Logs.vue";
 import { provideServer } from "./server";
@@ -9,7 +10,10 @@ import Server from "./Server.vue";
 
 const { counter } = provideServer();
 
-const pollingDelay$ = timer(0, 3000);
+onSlideEnter(() => start$.next());
+
+const start$ = new Subject<void>();
+const pollingDelay$ = start$.pipe(switchMap(() => timer(0, 3000)));
 
 const requests = useObservable(
   pollingDelay$.pipe(
