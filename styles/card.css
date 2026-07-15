@@ -1,0 +1,26 @@
+[role="group"] {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--gap);
+}
+
+.card {
+  &.-basic {
+    &::before {
+      display: none;
+    }
+
+    > :not(:first-child) {
+      margin-block-start: 12px;
+    }
+
+    > hgroup {
+      > p {
+        color: var(--fg-dim);
+        margin: 0 !important;
+      }
+    }
+  }
+}

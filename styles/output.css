@@ -1,0 +1,18 @@
+output {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  background: var(--code-bg);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+
+  > .value {
+    font-size: var(--fs-stat);
+    color: var(--fg);
+  }
+
+  &:has(.value) {
+    color: var(--fg-dim);
+  }
+}

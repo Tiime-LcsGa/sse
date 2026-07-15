@@ -1,0 +1,9 @@
+.value {
+  &.-numeric {
+    font-size: var(--fs-stat-sm);
+
+    &:empty::before {
+      content: "-";
+    }
+  }
+}

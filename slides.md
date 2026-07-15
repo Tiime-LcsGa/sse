@@ -1,137 +1,110 @@
 ---
+kicker: 'SSE : HTTP/1.1 - 2015'
+title: Server-Sent Events
+subtitle: 'Ne demandez plus, écoutez : le temps réel sans le fardeau du polling.'
+theme: slidev-theme-tahta
+themeConfig: { variant: atelier }
 highlighter: shiki
-fonts:
-  poppins: Poppins
-  provider: google
 drawings:
   persist: false
 transition: slide-left
-title: Server-Sent Events (SSE)
 ---
 
-# Server-Sent Events (SSE)
-
-Ne demandez plus, écoutez : le temps réel sans le fardeau du polling.
-
 ---
-layout: center
----
-
-# Le polling et les SSE : La mise à jour instantannée
-
-Recevoir l'information au moment précis où la donnée change
-
----
-layout: image-right
-image: assets/polling.png
+layout: section
+kicker: Le problème
+title: Le polling
+subtitle: Des requêtes à intervalle de temps régulier
 ---
 
-# Le polling <span style="color: var(--color-important)">Traditionnel</span>
+---
+layout: diagram
+title: Le Polling
+---
 
-<br/>
+<Polling />
 
-## <span style="color: var(--color-important)">"Il y a du nouveau ?"</span>
-
-<br/>
-
-<v-clicks>
-
+<!--
 - Requête HTTP toutes les N secondes
 - Le serveur répond souvent : "pas de changement"
-  
-</v-clicks>
+-->
 
 ---
-
-# Le polling est <span style="color: var(--color-important)">inefficae</span>
-
-<br/>
-
-<CardList>
-  <v-clicks>
-    <Card>
-      <NetworkIcon />
-      <h3>Surchage</h3>
-      <p>Trop d'appels réseau pour rien.</p>
-    </Card>
-    <Card>
-      <HourglassIcon />
-      <h3>Latence</h3>
-      <ul>
-        <li>SI data à T+1s</li>
-        <li>ET appel à T+3s</li>
-        <li>2s d'attente pour rien</li>
-      </ul>
-    </Card>
-    <Card>
-      <BatteryWarningIcon />
-      <h3>Énergie</h3>
-      <p>Consomme des ressources côté client et serveur.</p>
-    </Card>
-  </v-clicks>
-</CardList>
+layout: feature
+title: Le polling est inefficace
+features: 
+  - { icon: lucide:trash, title: Gaspillage, desc: Requêtes "à vide" en continu qui consomment la bande passante inutilement }
+  - { icon: lucide:hourglass, title: Latence, desc: L'information n'est jamais instantanée. On subit l'intervalle d'attente entre deux requêtes }
+  - { icon: lucide:server-crash, title: Saturation, desc: Le serveur s'épuise à répondre "rien de nouveau" simultanément à tous les clients }
+---
 
 ---
-layout: center
+layout: section
+kicker: La solution
+title: 'Les SSE'
+subtitle: 'Un abonnement unidirectionnel efficace'
 --- 
 
-# La Solution : les  SSE
-
-Server-Sent-Events : Un abonnement unidirectionnel efficace
-
 ---
-layout: image-right
-image: assets/sse.webp
+layout: diagram
+title: Les SSE
 ---
 
-# S'abonner au <span style="color: var(--color-important)">Flux</span>
+<Sse />
 
-Une seule connexion HTTP ouverte.
-
-Le serveur pousse les données dès qu'elles sont prêtes.
-
-<span style="color: var(--color-important)">Le Front-end attend passivement la mise à jour</span>
-
-
----
-
-# Les avantages des <span style="color: var(--color-important)">SSE</span>
-
-<br/>
-
-<CardList>
-  <v-clicks>
-    <Card>
-      <ZapIcon />
-      <h3>Instantané</h3>
-      <p>Zéro latence après l'évènement.</p>
-    </Card>
-    <Card>
-      <LinkIcon />
-      <h3>Connexion unique</h3>
-      <p>Réduit la charge réseau drastiquement.</p>
-    </Card>
-    <Card>
-      <CodeXmlIcon />
-      <h3>Natif</h3>
-      <p>Utilise le protocole HTTP standard.</p>
-    </Card>
-  </v-clicks>
-</CardList>
+<!-- 
+- S'abonner au flux
+- Une seule connexion HTTP ouverte.
+- Le serveur pousse les données dès qu'elles sont prêtes.
+- Le Front-end attend passivement la mise à jour => on doit faire un GET pour la data initiale.
+ -->
 
 ---
-layout: two-cols-header
+layout: feature
+title: Les avantages des SSE
+features:
+  - { icon: lucide:zap, title: Instantané, desc: Le serveur "pousse" l'information instantanément dès qu'elle est prête. Zéro délai d'attente }
+  - { icon: lucide:link, title: Connexion unique, desc: Une seule requête HTTP est maintenue ouverte. Fini le gaspillage des appels réseau répétitifs }
 ---
 
-# L'implémentation <span style="color: var(--color-important)">Native</span>
+---
+layout: feature
+title: L'inconvénient des SSE
+features:
+  - { icon: lucide:puzzle, title: État initial, desc: Nécessite souvent un appel HTTP "GET" classique pour récupérer la donnée de départ avant d'écouter le flux d'événements }
+---
 
-::left::
-## [`new EventSource()`](https://developer.mozilla.org/en-US/docs/Web/API/EventSource)
-
-<br/>
+---
+layout: code
+title: L'implémentation native
+---
 
 ````md magic-move
-```ts {all|1|3-6|8|10-12}
+```ts
+const source = new EventSource('/sse');
+```
+
+```ts
+const source = new EventSource('/sse');
+
+source.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log(data);
+};
+```
+
+```ts
+const source = new EventSource('/sse');
+
+source.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log(data);
+};
+
+source.onerror = (error) => subscriber.error(error);
+```
+
+```ts
 const source = new EventSource('/sse');
 
 source.onmessage = (event) => {
@@ -145,10 +118,66 @@ source.onerror = (error) => subscriber.error(error);
 
 source.close();
 ```
+````
 
-```ts {all|1,15,17|2,14|3|5-8|10|13|all}
+<!--
+- Ultra simple à mettre en place et à l'usage.
+- Limites : Pas de headers personnalisés (Auth) via l'API native.
+-->
+
+---
+layout: code
+title: Surcouche réactive
+comark: true
+---
+
+````md magic-move
+```ts
+const source = new EventSource('/sse');  
+```
+
+```ts
+fromSse('/sse').subscribe(console.log);
+```
+
+```ts {all|2-4 }
 function fromSse<T>(url: string) {
-  return new Observable<T>(subscriber => {
+  return new Observable<T>((subscriber) => {
+    ...
+  });
+}
+
+fromSse('/sse').subscribe(console.log);
+```
+
+```ts {all|3}
+function fromSse<T>(url: string) {
+  return new Observable<T>((subscriber) => {
+    const source = new EventSource(url);
+  });
+}
+
+fromSse('/sse').subscribe(console.log);
+```
+
+```ts {all|5-8}
+function fromSse<T>(url: string) {
+  return new Observable<T>((subscriber) => {
+    const source = new EventSource(url);
+
+    source.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      subscriber.next(data);
+    };
+  });
+}
+
+fromSse('/sse').subscribe(console.log);
+```
+
+```ts {all|10}
+function fromSse<T>(url: string) {
+  return new Observable<T>((subscriber) => {
     const source = new EventSource(url);
 
     source.onmessage = (event) => {
@@ -157,7 +186,23 @@ function fromSse<T>(url: string) {
     };
 
     source.onerror = (error) => subscriber.error(error);
-      
+  });
+}
+
+fromSse('/sse').subscribe(console.log);
+```
+
+```ts {all|12|all}
+function fromSse<T>(url: string) {
+  return new Observable<T>((subscriber) => {
+    const source = new EventSource(url);
+
+    source.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      subscriber.next(data);
+    };
+
+    source.onerror = (error) => subscriber.error(error);
 
     return () => source.close();
   });
@@ -167,16 +212,3 @@ fromSse('/sse').subscribe(console.log);
 ```
 ````
 
-::right::
-
-<br />
-<br />
-<br />
-
-<p v-click="13">
-  <CheckIcon style="display: inline-block; color: var(--color-tip)" /> Ultra simple à mettre en place et à l'usage.
-</p>
-
-<p v-click="14">
-  <TriangleAlertIcon style="display: inline-block; color: var(--color-warning)" /> Limites : Pas de headers personnalisés (Auth) via l'API native.
-</p>

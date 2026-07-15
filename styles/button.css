@@ -1,0 +1,25 @@
+.btn {
+  display: inline flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  background: var(--accent);
+  color: var(--on-accent);
+  border-radius: var(--radius);
+
+  &:hover {
+    background: var(--accent-deep);
+  }
+
+  &:active {
+    scale: 0.98;
+  }
+
+  > svg {
+    margin-inline-start: -12px;
+  }
+}

@@ -19,6 +19,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "explicit"
   },
-  "oxc.enable.oxfmt": false,
+  "oxc.enable.oxfmt": true,
   "oxc.enable.oxlint": false
 }
