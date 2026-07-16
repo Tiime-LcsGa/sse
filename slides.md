@@ -42,7 +42,7 @@ layout: section
 kicker: La solution
 title: 'Les SSE'
 subtitle: 'Un abonnement unidirectionnel efficace'
---- 
+---
 
 ---
 title: Les SSE
@@ -99,7 +99,7 @@ source.onmessage = (event) => {
   console.log(data);
 };
 
-source.onerror = (error) => subscriber.error(error);
+source.onerror = (error) => console.error(error);
 ```
 
 ```ts
@@ -110,7 +110,7 @@ source.onmessage = (event) => {
   console.log(data);
 };
 
-source.onerror = (error) => subscriber.error(error);
+source.onerror = (error) => console.error(error);
 
 ...
 
@@ -213,4 +213,94 @@ fromSse('/sse').subscribe(console.log);
 ---
 layout: section
 title: PHP - Mercure
+---
+
+---
+layout: feature
+title: Pourquoi Mercure ?
+features:
+  - { icon: lucide:server-crash, title: Décharge le serveur, desc: PHP n'est pas fait pour maintenir des milliers de connexions ouvertes. Le "Hub" Mercure s'en occupe en externe ; PHP ne fait que lui pousser les mises à jour }
+  - { icon: lucide:shield-user, title: Sécurité native, desc: Gère les droits d'accès directement via des tokens JWT. Contrôle de manière standardisée qui a le droit d'écouter quels événements privés }    
+  - { icon: lucide:rocket, title: Prêt à l'emploi, desc: Natif sous Symfony. Quelques lignes de code suffisent pour publier un événement sans configurer d'infrastructure complexe }
+---
+
+---
+layout: feature
+title: Angular + Mercure = SseClient (maison)
+features:
+  - { icon: lucide:network, title: Intégration native, desc: "Conçu pour la DI Angular" }
+  - { icon: lucide:pencil-ruler, title: API familière, desc: Approche push-based intuitive qui reprend les codes d'HttpClient }
+  - { icon: lucide:rotate-3d, title: Support des Intercepteurs, desc: "Permet notamment l'ajout de headers, impossible avec l'EventSource natif" }
+  - { icon: lucide:blocks, title: Évolutif, desc: "Architecture calquée sur le standard Angular" }
+---
+
+---
+layout: code
+title: SseClient - Configuration
+---
+
+```ts [Configuration] twoslash
+// @noErrors
+import { provideSseClient, withInterceptors } from '@angular-extension/common/sse';
+
+// ---cut-start---
+type ApplicationConfig = { providers: Provider[] }
+
+/** {@link https://github.com/ManakinCubber/tiime-desk-web/blob/develop/libs/angular-extension/common/src/sse/provider.ts#L8-L15} */
+declare function provideSseClient(...features: SseFeature<SseFeatureKind>[]): EnvironmentProviders
+
+/** {@link https://github.com/ManakinCubber/tiime-desk-web/blob/develop/libs/angular-extension/common/src/sse/interceptor.ts#L53-L62} */
+declare function withSseInterceptors(interceptorFns: SseInterceptorFn[]): SseFeature<SseFeatureKind.Interceptors>
+
+/** {@link https://github.com/ManakinCubber/tiime-desk-web/blob/develop/libs/core/src/mercure/redirect-sse-request-interceptor.ts} */
+declare function redirectSseRequestInterceptor(topicPrefix?: string): SseInterceptorFn;
+
+/** {@link https://github.com/ManakinCubber/tiime-desk-web/blob/develop/libs/core/src/mercure/auth-interceptor.ts} */
+declare const sseAuthInterceptor: SseInterceptorFn;
+// ---cut-end---
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    // ...
+    provideSseClient(
+      withSseInterceptors([
+        redirectSseRequestInterceptor('forms'),
+        sseAuthInterceptor,
+      ])
+    )
+  ]
+};
+```
+
+---
+layout: code
+title: SseClient - Utilisation
+---
+
+```ts {1,4,12-14}
+import { SseClient } from '@angular-extension/common/sse';
+
+export  function useWorkflowStore() {
+  const sseClient = inject(SseClient);
+
+  const workflow = /* ... */
+  const state = /* ... */
+
+  toObservable(workflow).pipe(
+    filter(Boolean),
+    switchMap(({ id }) =>
+      sseClient
+        .from<WorkflowState>(`sse/workflow_users/${id}/step`)
+        .pipe(tap((workflowState) => /* update state with workflowState */)),
+    ),
+    takeUntilDestroyed(),
+  ).subscribe();
+
+  return { workflow, state, /* ... */ };
+}
+```
+
+---
+layout: end
+title: Merci
 ---
