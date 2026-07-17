@@ -11,6 +11,14 @@ transition: slide-left
 ---
 
 ---
+layout: feature
+title: Les besoins
+features:
+  - { icon: lucide:scan-face, title: Attente d'une validation externe (2FA), desc: Bloquer l'écran desktop jusqu'à ce que l'utilisateur confirme sa tentative de connexion depuis son application mobile }
+  - { icon: lucide:refresh-ccw, title: Synchronisation de parcours (Stepper), desc: "Faire avancer visuellement les étapes d'un formulaire en temps réel, même quand l'action est réalisée sur un autre appareil (ex : Fourthline)" }
+---
+
+---
 layout: section
 kicker: Le problème
 title: Le polling
