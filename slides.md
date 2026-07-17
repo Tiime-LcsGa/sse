@@ -8,6 +8,7 @@ highlighter: shiki
 drawings:
   persist: false
 transition: slide-left
+routerMode: hash
 ---
 
 ---
