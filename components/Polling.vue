@@ -4,8 +4,8 @@ import { useDateFormat } from "@vueuse/core";
 import { useObservable } from "@vueuse/rxjs";
 import { scan, Subject, switchMap, timer } from "rxjs";
 import { computed } from "vue";
+import { provideServer } from "../composables/server";
 import Logs from "./Logs.vue";
-import { provideServer } from "./server";
 import Server from "./Server.vue";
 
 const { counter } = provideServer();

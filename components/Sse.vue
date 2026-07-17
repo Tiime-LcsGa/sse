@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useDateFormat, useNow, useRefHistory } from "@vueuse/core";
 import { computed } from "vue";
+import { provideServer } from "../composables/server";
 import Logs from "./Logs.vue";
-import { provideServer } from "./server.ts";
 import Server from "./Server.vue";
 
 const { counter } = provideServer();

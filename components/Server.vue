@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PlusIcon } from "@lucide/vue";
-import { injectServer } from "./server";
+import { injectServer } from "../composables/server";
 
 const { counter } = injectServer();
 </script>
