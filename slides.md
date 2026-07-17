@@ -23,11 +23,6 @@ title: Le Polling
 
 <Polling />
 
-<!--
-- Requête HTTP toutes les N secondes
-- Le serveur répond souvent : "pas de changement"
--->
-
 ---
 layout: feature
 title: Le polling est inefficace
@@ -49,13 +44,6 @@ title: Les SSE
 ---
 
 <Sse />
-
-<!-- 
-- S'abonner au flux
-- Une seule connexion HTTP ouverte.
-- Le serveur pousse les données dès qu'elles sont prêtes.
-- Le Front-end attend passivement la mise à jour => on doit faire un GET pour la data initiale.
- -->
 
 ---
 layout: feature
@@ -117,11 +105,6 @@ source.onerror = (error) => console.error(error);
 source.close();
 ```
 ````
-
-<!--
-- Ultra simple à mettre en place et à l'usage.
-- Limites : Pas de headers personnalisés (Auth) via l'API native.
--->
 
 ---
 layout: code
@@ -239,7 +222,7 @@ layout: code
 title: SseClient - Configuration
 ---
 
-```ts [Configuration] twoslash
+```ts twoslash
 // @noErrors
 import { provideSseClient, withInterceptors } from '@angular-extension/common/sse';
 
